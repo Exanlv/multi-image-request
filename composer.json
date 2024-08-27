@@ -1,0 +1,21 @@
+{
+    "name": "exan/mir",
+    "description": "Retrieving multiple images in a single request",
+    "autoload": {
+        "psr-4": {
+            "Exan\\Mir\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "exan"
+        }
+    ],
+    "require-dev": {
+    },
+    "require": {
+        "nyholm/psr7": "^1.8",
+        "laminas/laminas-httphandlerrunner": "^2.10",
+        "ralouphie/mimey": "^1.0"
+    }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="image-container"></div>
+</body>
+</html>
+<script>
+fetch('http://localhost:8080?images[]=1.jpg&images[]=polarbear.jpg&images[]=2.jpg').then(function (response) {
+    // This should not be parsed like this, this does not account for more complicated headers, or validate the header at all
+    const contentType = response.headers.get('Content-Type');
+    const [, boundaryIndication] = contentType.split(';');
+    const [, boundary] = boundaryIndication.split('=');
+
+    let body = response.text().then(function (body) {
+        // This should not be parsed like this
+        // You should use the actual body stream, --BOUNDARY indicates the start of the chunks, BOUNDARY-- indicates end
+        // This is just a lazy approach
+        const images = body
+            .replace('--' + boundary, '')
+            .replace(boundary + '--', '')
+            .split(boundary);
+
+        images.forEach(function (image) {
+            const imageElement = document.createElement('img');
+            imageElement.src = image;
+
+            document.getElementById('image-container').appendChild(imageElement);
+        });
+    });
+});
+</script>
